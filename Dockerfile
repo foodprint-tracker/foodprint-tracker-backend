@@ -22,4 +22,6 @@ RUN pip3.6 install -r /home/app/requirements.txt
 COPY . /home/app
 RUN chown -R app /home/app
 WORKDIR /home/app/src
-CMD ["python3.6","manage.py", "runserver"]
+CMD ["python3.6","manage.py", "runserver", "0.0.0.0:8000"]
+
+EXPOSE 8000
