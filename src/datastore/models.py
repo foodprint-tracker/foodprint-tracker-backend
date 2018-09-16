@@ -22,7 +22,7 @@ class Receipt(models.Model):
     user = models.ForeignKey(APIUser, on_delete=models.CASCADE)
     shop = models.CharField(max_length=128, blank=True,
                             help_text='Shop name')
-    currency = models.CharField(max_length=4, default = 'EUR')
+    currency = models.CharField(max_length=4, default = 'CHF')
     timestamp = models.DateField(null=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

@@ -3,10 +3,12 @@ import datastore.models as models
 
 
 class APIUserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'email', 'date_of_birth', 'city')
 
 
 class ReceiptAdmin(admin.ModelAdmin):
+    list_display = ('user', 'timestamp', 'shop',)
+    list_filter = ['user__email']
     pass
 
 
