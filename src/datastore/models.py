@@ -126,18 +126,19 @@ class ItemIngredient(models.Model):
         ordering = ['display_name']
 
     def save(self, *args, **kwargs):
-        if not self.abs_ingredient:
+        if not self.abs_ingredient or not self.co2_fp:
             # Attempt to find a candidate from Abstract ingredients
-            abs_in = AbsIngredient.objects.filter(display_name__iexact=self.handle)
+            abs_in = AbsIngredient.objects.filter(display_name__iexact=self.display_name)
             if abs_in:
                 # Since the handle is unique, we'd get a single result at most
                 self.abs_ingredient = abs_in[0]
-        if not self.co2_fp:
+                self.concentration = 1
+        if not self.co2_fp and self.abs_ingredient:
             self.co2_fp = self.abs_ingredient.co2_kg * self.concentration * self.item.kg
 
-        if not self.energy_fp:
+        if not self.energy_fp and self.abs_ingredient:
             self.energy_fp = self.abs_ingredient.energy_kg * self.concentration * self.item.kg
 
-        if not self.water_fp:
+        if not self.water_fp and self.abs_ingredient:
             self.water_fp = self.abs_ingredient.water_kg * self.concentration * self.item.kg
         return super().save(*args, **kwargs)
